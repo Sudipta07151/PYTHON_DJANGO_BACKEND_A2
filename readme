@@ -1,0 +1,30 @@
+#INSTALL DJANGO
+pip install django
+
+#TO SEE WHAT ALL COMMANDS PRESENT IN DJANGO
+django-admin
+
+#CREATED A NEW PROJECT
+django-admin startproject backend
+
+#INSIDE backend run
+python manage.py runserver
+
+#TO CREATE A NEW APP
+python manage.py startapp mlblogs
+
+#DATABASE DEPENDENCIES
+pip install psycopg2
+pip install psycopg2-binary
+
+#CORS
+pip install django-cors-headers
+
+#TO MIGRATE
+python manage.py migrate
+
+#TO CREATE DATABASE MIGRATIONS
+python manage.py makemigrations 
+
+#TO CHECK THE SQL QUERIES MADE TO CREATE DATABASE
+python manage.py sqlmigrate mlblogs 0001
