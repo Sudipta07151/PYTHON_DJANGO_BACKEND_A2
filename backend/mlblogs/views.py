@@ -143,3 +143,8 @@ def addmodel(request):
         data=serializer.errors
     return Response(data)
 
+@api_view(['GET'])
+def allmodellist(request):
+    models=ModelsList.objects.all()
+    serializer=ModelSerializers(models,many=True)
+    return Response(serializer.data)
