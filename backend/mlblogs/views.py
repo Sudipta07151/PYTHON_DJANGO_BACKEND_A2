@@ -138,7 +138,7 @@ def addmodel(request):
     data={}
     if serializer.is_valid():
         serializer.save()
-        data['response']="successfully registered"
+        data['response']="successfully added"
     else:
         data=serializer.errors
     return Response(data)

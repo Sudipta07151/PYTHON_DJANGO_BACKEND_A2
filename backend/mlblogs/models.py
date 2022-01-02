@@ -19,11 +19,11 @@ from .managers import CustomUserManager
 class Users(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=10)
-    is_staff = models.BooleanField(default=False)
+    #password = models.CharField(max_length=20)
+    is_staff = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
-
+    last_login=models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -46,7 +46,7 @@ class ModelsList(models.Model):
         return self.title
 
 
-@receiver(post_save, sender=Users)
-def create_auth_token(sender, instance=Users, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
+# @receiver(post_save, sender=Users)
+# def create_auth_token(sender, instance=Users, created=False, **kwargs):
+#     if created:
+#         Token.objects.create(user=instance)
