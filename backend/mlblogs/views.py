@@ -1,16 +1,18 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes,authentication_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
+
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
+
 
 from .models import Users
 from .models import ModelsList
 
 from .serializers import UsersSerializers
 from .serializers import ModelSerializers
-
 
 books = [
     {
@@ -113,6 +115,7 @@ def api(request):
     return Response(api_urls)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def alluserlist(request):
     models=Users.objects.all()
     serializer=UsersSerializers(models,many=True)
@@ -130,8 +133,8 @@ def adduser(request):
         data=serializer.errors
     return Response(data)
 
-
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def addmodel(request):
     print(request.data)
     serializer=ModelSerializers(data=request.data)
@@ -143,7 +146,9 @@ def addmodel(request):
         data=serializer.errors
     return Response(data)
 
+
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def allmodellist(request):
     models=ModelsList.objects.all()
     serializer=ModelSerializers(models,many=True)
