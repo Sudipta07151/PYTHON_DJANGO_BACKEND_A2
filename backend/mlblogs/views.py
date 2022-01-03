@@ -110,7 +110,7 @@ books = [
 def api(request):
     api_urls={
         'GET All USERS':'/alluserlist',
-        'ADD USER':'/adduser'
+        'ADD USER':'/adduser',
     }
     return Response(api_urls)
 
@@ -134,7 +134,7 @@ def adduser(request):
     return Response(data)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def addmodel(request):
     print(request.data)
     serializer=ModelSerializers(data=request.data)
@@ -148,8 +148,22 @@ def addmodel(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def allmodellist(request):
     models=ModelsList.objects.all()
     serializer=ModelSerializers(models,many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def modelDetail(request,pk):
+    models=ModelsList.objects.get(id=pk)
+    serializer=ModelSerializers(models,many=False)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def userCreated(request,pk):
+    models=ModelsList.objects.filter(user=pk)
+    serializer=ModelSerializers(models,many=True)
+    return Response(serializer.data)
+

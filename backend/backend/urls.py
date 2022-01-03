@@ -5,6 +5,8 @@ from mlblogs.views import alluserlist
 from mlblogs.views import adduser
 from mlblogs.views import addmodel
 from mlblogs.views import allmodellist
+from mlblogs.views import modelDetail
+from mlblogs.views import userCreated
 from mlblogs import views
 
 #SIMPLE JWT IMPORTS
@@ -21,6 +23,8 @@ urlpatterns = [
     path('adduser/', adduser, name="adduser"),
     path('addmodel/', addmodel, name="adduser"),
     path('allmodellist/', allmodellist, name="allmodellist"),
+    path('model/<str:pk>/',modelDetail,name="modelDetail"),
+    path('usermodels/<str:pk>/',userCreated,name="usermodels"),
 
     # SIMPLE JWT PATHS
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
