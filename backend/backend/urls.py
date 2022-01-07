@@ -8,6 +8,7 @@ from mlblogs.views import allmodellist
 from mlblogs.views import modelDetail
 from mlblogs.views import userCreated
 from mlblogs import views
+from mlblogs.views import user
 
 #SIMPLE JWT IMPORTS
 from rest_framework_simplejwt.views import (
@@ -25,7 +26,7 @@ urlpatterns = [
     path('allmodellist/', allmodellist, name="allmodellist"),
     path('model/<str:pk>/',modelDetail,name="modelDetail"),
     path('usermodels/<str:pk>/',userCreated,name="usermodels"),
-
+    path('user/<str:pk>/',user,name="userprofile"),
     # SIMPLE JWT PATHS
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

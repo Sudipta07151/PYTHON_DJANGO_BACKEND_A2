@@ -121,6 +121,15 @@ def alluserlist(request):
     serializer=UsersSerializers(models,many=True)
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user(request,pk):
+    models=Users.objects.get(id=pk)
+    serializer=UsersSerializers(models,many=False)
+    return Response(serializer.data)
+
+
 @api_view(['POST'])
 def adduser(request):
     print(request.data)
@@ -148,7 +157,7 @@ def addmodel(request):
 
 
 @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def allmodellist(request):
     models=ModelsList.objects.all()
     serializer=ModelSerializers(models,many=True)
