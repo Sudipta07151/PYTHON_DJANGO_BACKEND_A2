@@ -127,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -183,3 +182,16 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
+
+#AWS SETTINGS
+
+AWS_ACCESS_KEY_ID = "AKIATGJS6UQPZGLPKXBY"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME ="mlblogspdfadd"
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_REGION_NAME ="us-west-2"
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' 

@@ -11,8 +11,15 @@ from rest_framework.serializers import Serializer
 from .models import Users
 from .models import ModelsList
 
+#aws bucket import file
+from .awsbucket import S3
+
 from .serializers import UsersSerializers
 from .serializers import ModelSerializers
+
+#to create an unique key
+import uuid
+
 
 books = [
     {
@@ -175,4 +182,12 @@ def userCreated(request,pk):
     models=ModelsList.objects.filter(user=pk)
     serializer=ModelSerializers(models,many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+def addpdf(request):
+    key=str(request.data['data'])+"/"+str(uuid.uuid1())+".pdf"
+    url=S3().get_presigned_url(key)
+    data={'key':key,'url':url}
+    print(request.data)
+    return Response(data)    
 
