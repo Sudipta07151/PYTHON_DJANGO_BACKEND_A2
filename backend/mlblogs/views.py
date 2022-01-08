@@ -191,3 +191,12 @@ def addpdf(request):
     print(request.data)
     return Response(data)    
 
+@api_view(['GET'])
+def bucketobjectlist(request):
+    data=S3().get_all_object()
+    for my_bucket_object in data:
+        print(my_bucket_object.key)    
+        print(type(my_bucket_object))
+    return Response({'response': 'ok'})    
+
+
