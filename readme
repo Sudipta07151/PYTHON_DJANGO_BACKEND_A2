@@ -28,3 +28,6 @@ python manage.py makemigrations
 
 #TO CHECK THE SQL QUERIES MADE TO CREATE DATABASE
 python manage.py sqlmigrate mlblogs 0001
+
+#CHECK
+aws removed from github _security issue
