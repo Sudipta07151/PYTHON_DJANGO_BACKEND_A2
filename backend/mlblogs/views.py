@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import Serializer
 
 
-from .models import Users
+from .models import PdfList, Users
 from .models import ModelsList
 
 #aws bucket import file
@@ -16,6 +16,7 @@ from .awsbucket import S3
 
 from .serializers import UsersSerializers
 from .serializers import ModelSerializers
+from .serializers import PdfSerializers
 
 #to create an unique key
 import uuid
@@ -191,12 +192,34 @@ def addpdf(request):
     print(request.data)
     return Response(data)    
 
+# @api_view(['GET'])
+# def bucketobjectlist(request):
+#     data=S3().get_all_object()
+#     for my_bucket_object in data:
+#         print(my_bucket_object.key)    
+#         print(type(my_bucket_object))
+#     return Response({'response': 'ok'})    
+
+
+#get all data file from pdflist model
+
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def bucketobjectlist(request):
-    data=S3().get_all_object()
-    for my_bucket_object in data:
-        print(my_bucket_object.key)    
-        print(type(my_bucket_object))
-    return Response({'response': 'ok'})    
+    models=PdfList.objects.all()
+    serializer=PdfSerializers(models,many=True)
+    return Response(serializer.data)
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def addpdftodb(request):
+    print(request.data)
+    serializer=PdfSerializers(data=request.data)
+    data={}
+    if serializer.is_valid():
+        serializer.save()
+        data['response']="ok"
+    else:
+        data=serializer.errors
+    return Response(data)

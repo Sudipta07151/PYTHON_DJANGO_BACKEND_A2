@@ -45,6 +45,15 @@ class ModelsList(models.Model):
     def __str__(self):
         return self.title
 
+class PdfList(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.DO_NOTHING)
+    name = models.CharField(max_length=100, blank=True)
+    filename = models.TextField(blank=True,max_length=200)
+    
+    def __str__(self):
+        return self.filename
+
+
 
 # @receiver(post_save, sender=Users)
 # def create_auth_token(sender, instance=Users, created=False, **kwargs):

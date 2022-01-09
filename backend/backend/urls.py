@@ -11,6 +11,8 @@ from mlblogs import views
 from mlblogs.views import user
 from mlblogs.views import addpdf
 from mlblogs.views import bucketobjectlist
+from mlblogs.views import addpdftodb
+
 
 #SIMPLE JWT IMPORTS
 from rest_framework_simplejwt.views import (
@@ -31,7 +33,7 @@ urlpatterns = [
     path('user/<str:pk>/',user,name="userprofile"),
     path('addpdf/',addpdf,name="addpdf"),
     path('s3bucketlist/',bucketobjectlist,name="s3bucketlist"),
-    
+    path('s3objecttodb/',addpdftodb,name="addpdftodb"),
     # SIMPLE JWT PATHS
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
