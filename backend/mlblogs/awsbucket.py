@@ -41,3 +41,5 @@ class S3:
         my_bucket = s3.Bucket('mlblogspdfadd')
         list = my_bucket.objects.all()
         return list
+
+    print("aws")
