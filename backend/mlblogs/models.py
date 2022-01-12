@@ -15,7 +15,6 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from .managers import CustomUserManager
 
 
-
 class Users(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
@@ -23,7 +22,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
-    last_login=models.DateTimeField(default=timezone.now)
+    last_login = models.DateTimeField(default=timezone.now)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -34,25 +33,37 @@ class Users(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
+# TO DECALRE THE DIFFICULTY CHOICES
+class DifficultyChoice(models.TextChoices):
+    EASY = "Easy", "Easy"
+    MEDIUM = "Medium", "Medium"
+    DIFFICULT = "Difficult", "Difficult"
+
+
 class ModelsList(models.Model):
     user = models.ForeignKey(Users, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=500, blank=True)
-    description = models.TextField(blank=True,max_length=1000)
+    description = models.TextField(blank=True, max_length=1000)
     data = models.DateTimeField(default=datetime.now, blank=True)
     code = models.BooleanField(default=False)
     snippet = models.TextField(blank=True)
+    difficulty = models.CharField(
+        max_length=15,
+        choices=DifficultyChoice.choices,
+        default="Easy"
+    )
 
     def __str__(self):
         return self.title
 
+
 class PdfList(models.Model):
     user = models.ForeignKey(Users, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=100, blank=True)
-    filename = models.TextField(blank=True,max_length=200)
-    
+    filename = models.TextField(blank=True, max_length=200)
+
     def __str__(self):
         return self.filename
-
 
 
 # @receiver(post_save, sender=Users)
