@@ -9,10 +9,11 @@ from .models import PdfList
 class UsersSerializers(serializers.ModelSerializer):
     class Meta:
         model = Users
-        fields = ['email', 'username', 'password']
-    
+        fields = ['email', 'username', 'password', 'date_joined']
+
     def create(self, validated_data):
         return Users.objects.create_user(**validated_data)
+
 
 class ModelSerializers(serializers.ModelSerializer):
     class Meta:

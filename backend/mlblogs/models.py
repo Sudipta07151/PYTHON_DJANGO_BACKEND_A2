@@ -47,6 +47,7 @@ class ModelsList(models.Model):
     data = models.DateTimeField(default=datetime.now, blank=True)
     code = models.BooleanField(default=False)
     snippet = models.TextField(blank=True)
+    author=models.CharField(max_length=50, default="Anonymous")
     difficulty = models.CharField(
         max_length=15,
         choices=DifficultyChoice.choices,
