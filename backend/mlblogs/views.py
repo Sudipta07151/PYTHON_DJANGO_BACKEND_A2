@@ -1,7 +1,7 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render
 
-from rest_framework.decorators import api_view,permission_classes,authentication_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from rest_framework.response import Response
@@ -11,14 +11,14 @@ from rest_framework.serializers import Serializer
 from .models import PdfList, Users
 from .models import ModelsList
 
-#aws bucket import file
+# aws bucket import file
 from .awsbucket import S3
 
 from .serializers import UsersSerializers
 from .serializers import ModelSerializers
 from .serializers import PdfSerializers
 
-#to create an unique key
+# to create an unique key
 import uuid
 
 
@@ -114,100 +114,119 @@ books = [
 ]
 
 
-@api_view(['GET','POST'])
+@api_view(['GET', 'POST'])
 def api(request):
-    api_urls={
-        'GET All USERS':'/alluserlist',
-        'ADD USER':'/adduser',
+    api_urls = {
+        'GET All USERS': '/alluserlist',
+        'ADD USER': '/adduser',
     }
     return Response(api_urls)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def alluserlist(request):
-    models=Users.objects.all()
-    serializer=UsersSerializers(models,many=True)
+    models = Users.objects.all()
+    serializer = UsersSerializers(models, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def user(request,pk):
-    models=Users.objects.get(id=pk)
-    serializer=UsersSerializers(models,many=False)
+def user(request, pk):
+    models = Users.objects.get(id=pk)
+    serializer = UsersSerializers(models, many=False)
     return Response(serializer.data)
 
 
 @api_view(['POST'])
 def adduser(request):
     print(request.data)
-    serializer=UsersSerializers(data=request.data)
-    data={}
+    serializer = UsersSerializers(data=request.data)
+    data = {}
     if serializer.is_valid():
         serializer.save()
-        data['response']="successfully registered"
+        data['response'] = "successfully registered"
     else:
-        data=serializer.errors
+        data = serializer.errors
     return Response(data)
+
 
 @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
 def addmodel(request):
     print(request.data)
-    serializer=ModelSerializers(data=request.data)
-    data={}
+    serializer = ModelSerializers(data=request.data)
+    data = {}
     if serializer.is_valid():
         serializer.save()
-        data['response']="successfully added"
+        data['response'] = "successfully added"
     else:
-        data=serializer.errors
+        data = serializer.errors
+    return Response(data)
+
+
+@api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+def updatemodel(request, pk):
+    model = ModelsList.objects.get(id=pk)
+    print(request.data)
+    serializer = ModelSerializers(instance=model, data=request.data)
+    data = {}
+    if serializer.is_valid():
+        serializer.save()
+        data['response'] = "successfully added"
+    else:
+        data = serializer.errors
     return Response(data)
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def allmodellist(request):
-    models=ModelsList.objects.all()
-    serializer=ModelSerializers(models,many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-def modelDetail(request,pk):
-    models=ModelsList.objects.get(id=pk)
-    serializer=ModelSerializers(models,many=False)
+    models = ModelsList.objects.all()
+    serializer = ModelSerializers(models, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
-def userCreated(request,pk):
-    models=ModelsList.objects.filter(user=pk)
-    serializer=ModelSerializers(models,many=True)
+def modelDetail(request, pk):
+    models = ModelsList.objects.get(id=pk)
+    serializer = ModelSerializers(models, many=False)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def userCreated(request, pk):
+    models = ModelsList.objects.filter(user=pk)
+    serializer = ModelSerializers(models, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['POST'])
 def addpdf(request):
-    key=str(request.data['data'])+"/"+str(uuid.uuid1())+".pdf"
-    url=S3().get_presigned_url(key)
-    data={'key':key,'url':url}
+    key = str(request.data['data'])+"/"+str(uuid.uuid1())+".pdf"
+    url = S3().get_presigned_url(key)
+    data = {'key': key, 'url': url}
     print(request.data)
-    return Response(data)    
+    return Response(data)
 
 # @api_view(['GET'])
 # def bucketobjectlist(request):
 #     data=S3().get_all_object()
 #     for my_bucket_object in data:
-#         print(my_bucket_object.key)    
+#         print(my_bucket_object.key)
 #         print(type(my_bucket_object))
-#     return Response({'response': 'ok'})    
+#     return Response({'response': 'ok'})
 
 
-#get all data file from pdflist model
+# get all data file from pdflist model
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def bucketobjectlist(request):
-    models=PdfList.objects.all()
-    serializer=PdfSerializers(models,many=True)
+    models = PdfList.objects.all()
+    serializer = PdfSerializers(models, many=True)
     return Response(serializer.data)
 
 
@@ -215,11 +234,11 @@ def bucketobjectlist(request):
 @permission_classes([IsAuthenticated])
 def addpdftodb(request):
     print(request.data)
-    serializer=PdfSerializers(data=request.data)
-    data={}
+    serializer = PdfSerializers(data=request.data)
+    data = {}
     if serializer.is_valid():
         serializer.save()
-        data['response']="ok"
+        data['response'] = "ok"
     else:
-        data=serializer.errors
+        data = serializer.errors
     return Response(data)
