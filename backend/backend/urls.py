@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path
+
 from mlblogs.views import allmodellist
 from mlblogs.views import alluserlist
 from mlblogs.views import adduser
@@ -13,6 +14,7 @@ from mlblogs.views import addpdf
 from mlblogs.views import bucketobjectlist
 from mlblogs.views import addpdftodb
 from mlblogs.views import updatemodel
+from mlblogs.views import deletemodel
 
 # SIMPLE JWT IMPORTS
 from rest_framework_simplejwt.views import (
@@ -35,6 +37,7 @@ urlpatterns = [
     path('s3bucketlist/', bucketobjectlist, name="s3bucketlist"),
     path('s3objecttodb/', addpdftodb, name="addpdftodb"),
     path('modelupdate/<str:pk>/', updatemodel, name="updatemodel"),
+    path('modeldelete/<str:pk>/', deletemodel, name="deletemodel"),
 
     # SIMPLE JWT PATHS
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

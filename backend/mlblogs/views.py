@@ -1,3 +1,4 @@
+from msilib.schema import Error
 from django.http.response import JsonResponse
 from django.shortcuts import render
 
@@ -179,6 +180,21 @@ def updatemodel(request, pk):
     else:
         data = serializer.errors
     return Response(data)
+
+#delete a post
+@api_view(['DELETE'])
+# @permission_classes([IsAuthenticated])
+def deletemodel(request, pk):
+    data={}
+    try:
+        model = ModelsList.objects.get(id=pk)
+        model.delete()
+        data['response'] = "successfully added"
+    except Error:
+        data['error']="error"
+    finally:
+        return Response(data)
+
 
 
 @api_view(['GET'])
