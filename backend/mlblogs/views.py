@@ -22,6 +22,10 @@ from .serializers import PdfSerializers
 # to create an unique key
 import uuid
 
+#To create a post request to jdoodle
+import requests
+import json
+
 
 books = [
     {
@@ -258,3 +262,14 @@ def addpdftodb(request):
     else:
         data = serializer.errors
     return Response(data)
+
+
+@api_view(['POST'])
+def webide(request):
+    req=json.dumps(request.data)
+    print(type(req))
+    print(req)
+    req=json.loads(req)
+    print(type(req))
+    response = requests.post('https://api.jdoodle.com/v1/execute/', json = req)
+    return Response(response)

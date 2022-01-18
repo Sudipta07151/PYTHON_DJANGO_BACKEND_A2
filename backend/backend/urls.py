@@ -15,6 +15,7 @@ from mlblogs.views import bucketobjectlist
 from mlblogs.views import addpdftodb
 from mlblogs.views import updatemodel
 from mlblogs.views import deletemodel
+from mlblogs.views import webide
 
 # SIMPLE JWT IMPORTS
 from rest_framework_simplejwt.views import (
@@ -38,6 +39,10 @@ urlpatterns = [
     path('s3objecttodb/', addpdftodb, name="addpdftodb"),
     path('modelupdate/<str:pk>/', updatemodel, name="updatemodel"),
     path('modeldelete/<str:pk>/', deletemodel, name="deletemodel"),
+
+    # jdoodle request
+    path('webide/', webide, name="webide"),
+
 
     # SIMPLE JWT PATHS
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
